@@ -7,7 +7,7 @@ bool battle(bool board[][10])
     int y = 0;
     std::cout << "\nEnter X and Y: ";
     std::cin >> x >> y;
-    if (board[y][x])
+    if ((x >= 0 && x <= 9) && (y >= 0 && y <= 9) && board[y][x])
     {
         std::cout << "\nYou got him !";
         board[y][x] = false;
@@ -59,11 +59,6 @@ bool check_long_ship(bool player_board[][10], int type)
     std::cout << "Enter end point of ship X and Y: ";
     std::cin >> end_x >> end_y;
 
-    if ((start_x < 0 || start_x > 9) || (start_y < 0 || start_y > 9) || (end_x < 0 || end_x > 9) || (end_y < 0 || end_y > 9))
-    {
-        std::cout << "\nIncorrect input try again.";
-        return false;
-    }
     if (start_x == end_x)
     {
         if (abs(start_y - end_y) != type)
@@ -84,35 +79,32 @@ bool check_long_ship(bool player_board[][10], int type)
     {
         std::cout << "\nIncorrect input try again.";
         return false;
-    }
-
-    int start_i = 0;
-    int start_j = 0;
+    }    
 
     if (start_y > end_y)
     {
-        start_i = end_y;
+        int temp = 0;
+        temp = start_y;
+        start_y = end_y;
         end_y = start_y;
-    }
-    else
-    {
-        start_i = start_y;
-
-    }
+    }  
     if (start_x > end_x)
     {
-        start_j = end_x;
-        end_x = start_x;
+        int temp = 0;
+        temp = start_x;
+        start_x = end_x;
+        end_x = temp;
     }
-    else
-    {
-        start_j = start_x;
 
+    if (start_x < 0 || end_x > 9 || start_y < 0 || end_y > 9)
+    {
+        std::cout << "\nIncorrect input try again.";
+        return false;
     }
   
-    for (int i = start_i; i <= end_y; ++i)
+    for (int i = start_y; i <= end_y; ++i)
     {
-        for (int j = start_j; j <= end_x; ++j)
+        for (int j = start_x; j <= end_x; ++j)
         {
             if (player_board[i][j])
             {
@@ -121,9 +113,9 @@ bool check_long_ship(bool player_board[][10], int type)
             }            
         }
     }
-    for (int i = start_i; i <= end_y; ++i)
+    for (int i = start_y; i <= end_y; ++i)
     {
-        for (int j = start_j; j <= end_x; ++j)
+        for (int j = start_x; j <= end_x; ++j)
         { 
             player_board[i][j] = true;           
         }
@@ -252,12 +244,8 @@ int main()
     {
         std::cout << "\nPlayer 2 win !";
     }
-    else if(player_2_points == 0)
-    {
-        std::cout << "\nPlayer 1 win !";
-    }
     else
     {
-        std::cout << "\nTie !";
-    }
+        std::cout << "\nPlayer 1 win !";
+    } 
 }
